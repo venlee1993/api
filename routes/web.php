@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('*', function () {
-    return view('index');
+Route::get('/', function () {
+    echo 1212121;
 });
