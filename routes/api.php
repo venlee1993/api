@@ -23,6 +23,7 @@ Route::group(['prefix' => 'post'], function () {
     Route::get('{post}/comment', 'Api\CommentController@list');
     Route::post('comment', 'Api\CommentController@store');
     Route::post('store', 'Api\PostController@store');
+    Route::get('{post}/like', 'Api\LikeController@like');
 });
 
 Route::group(['prefix' => 'comment'], function () {
