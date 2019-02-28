@@ -32,9 +32,9 @@ class AuthController extends Controller
     private function respondWithToken($token)
     {
         return response()->json([
-            'access_token' => 'Bearer' .' ' . $token,
-            'user'         => auth('api')->user(),
-            'expires_in'   => auth('api')->factory()->getTTL() * 60
+            'access_token' => $token,
+            'user' => auth('api')->user(),
+            'expires_in' => auth('api')->factory()->getTTL() * 60
         ], 201);
     }
 
@@ -47,5 +47,13 @@ class AuthController extends Controller
     {
         $user = auth('api')->user();
         return response()->json($user);
+    }
+
+    public function check()
+    {
+        if (auth('api')->check()) {
+            return response()->json(['auth' => true]);
+        }
+        return response()->json(['auth' => false]);
     }
 }

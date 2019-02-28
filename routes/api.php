@@ -10,10 +10,10 @@
 |
 */
 
-
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'Api\AuthController@login');
     Route::get('info', 'Api\AuthController@userInfo');
+    Route::get('check', 'Api\AuthController@check');
 });
 
 
@@ -29,3 +29,5 @@ Route::group(['prefix' => 'post'], function () {
 Route::group(['prefix' => 'comment'], function () {
     Route::post('reply', 'Api\ReplyController@store');
 });
+
+

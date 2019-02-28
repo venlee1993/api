@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Illuminate\Auth\AuthenticationException;
 
 class Handler extends ExceptionHandler
 {
@@ -17,6 +17,9 @@ class Handler extends ExceptionHandler
     protected $dontReport = [
         //
     ];
+
+
+    protected $originHeader = ['Access-Control-Allow-Origin' => '*'];
 
     /**
      * A list of the inputs that are never flashed for validation exceptions.
@@ -50,14 +53,15 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        // 参数验证错误的异常，我们需要返回 400 的 http code 和一句错误信息
         if ($exception instanceof ValidationException) {
-            return response(['error' => array_first(array_collapse($exception->errors()))], 400);
+
+            return response(['error' => array_first(array_collapse($exception->errors()))], 400, $this->originHeader);
         }
-        // 用户认证的异常，我们需要返回 401 的 http code 和错误信息
-        if ($exception instanceof UnauthorizedHttpException) {
-            return response($exception->getMessage(), 401);
+        if ($exception instanceof AuthenticationException) {
+
+            return response($exception->getMessage(), 401, $this->originHeader);
         }
+
         return parent::render($request, $exception);
     }
 }

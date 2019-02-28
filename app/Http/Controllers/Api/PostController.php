@@ -9,7 +9,7 @@ class PostController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['list', 'show']);
+        $this->middleware('auth:api')->except(['list','show']);
     }
 
     public function list()
